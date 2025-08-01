@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for
 from pulp import LpProblem, LpMaximize, LpVariable, lpSum, LpBinary, LpInteger
 from items import load_items, save_items
 import locale
+import os
 
 app = Flask(__name__)
 locale.setlocale(locale.LC_ALL, '')
@@ -110,4 +111,5 @@ def delete_item(index):
     return redirect(url_for("manage_items"))
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
