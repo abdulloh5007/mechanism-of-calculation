@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Редактировать товар</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Редактировать товар</h1>
+        <form method="POST">
+            <label>Название:</label>
+            <input type="text" name="name" value="{{ item.name }}" required>
+
+            <label>Цена:</label>
+            <input type="number" name="price" step="0.01" value="{{ item.price }}" required>
+
+            <label>Количество:</label>
+            <input type="number" name="qty" value="{{ item.qty }}" required>
+
+            <div style="margin-top: 20px;">
+                <button type="submit">Сохранить</button>
+                <a href="{{ url_for('manage_items') }}" style="margin-left: 10px;">Назад</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

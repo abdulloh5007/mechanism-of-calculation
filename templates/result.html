@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Результаты подбора товаров</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+    <div class="container">
+        <div class="theme-toggle" style="display: flex; justify-content: space-between; align-items: center;">
+            <a href="{{ url_for('manage_items') }}">
+                <button>Управлять товарами ⚙️</button>
+            </a>
+            <button onclick="toggleTheme()">Сменить тему</button>
+        </div>
+
+        <h1>Параметры подбора товаров</h1>
+
+        <form method="POST" style="margin-bottom: 30px;">
+            <label for="target">Целевая сумма:</label>
+            <p id="target-display" class="formatted-display"></p>
+            <input type="number" name="target" step="0.01" value="{{ request.form.get('target', '') }}" required>
+
+            <label for="max_per_type">Макс. кол-во на один товар:</label>
+            <input type="number" name="max_per_type" value="{{ request.form.get('max_per_type', '') }}" required>
+
+            <div style="text-align: center; margin-top: 20px;">
+                <button type="submit">Рассчитать</button>
+            </div>
+        </form>
+
+        {% if results %}
+        <h2>Результаты подбора</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Наименование</th>
+                    <th>Кол-во</th>
+                    <th>Сумма</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in results %}
+                <tr data-index="{{ item.index }}">
+                    <td>{{ loop.index }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.count }}</td>
+                    <td>{{ item.subtotal }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <p class="total">
+            Итоговая сумма: {{ total }} / Цель: {{ target }}
+        </p>
+
+        <div class="theme-toggle" style="margin-top: 20px; text-align: center;">
+            <button onclick="markDone()">Выполнено ✅</button>
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>
